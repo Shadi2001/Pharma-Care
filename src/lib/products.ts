@@ -1,48 +1,20 @@
-import antibiotics from "@/assets/product-antibiotics.jpg";
-import syrups from "@/assets/product-syrups.jpg";
-import tablets from "@/assets/product-tablets.jpg";
-import creams from "@/assets/product-creams.jpg";
+import { useApiList } from '@/api/queries';
 
-export type ProductCategory = {
-  slug: string;
-  title: string;
-  tagline: string;
-  description: string;
-  image: string;
-  count: number;
-};
-
-export const categories: ProductCategory[] = [
-  {
-    slug: "antibiotics",
-    title: "المضادات الحيوية",
-    tagline: "Antibiotics",
-    description: "قسم مخصص للمضادات الحيوية بأشكال صيدلانية متعددة وفق أعلى معايير الجودة العالمية.",
-    image: antibiotics,
-    count: 24,
-  },
-  {
-    slug: "syrups",
-    title: "الأشربة الدوائية",
-    tagline: "Syrups & Suspensions",
-    description: "تركيبات سائلة دقيقة الجرعة للأطفال والبالغين بمذاقات مقبولة وتأثير سريع.",
-    image: syrups,
-    count: 18,
-  },
-  {
-    slug: "tablets",
-    title: "الأقراص والكبسولات",
-    tagline: "Tablets & Capsules",
-    description: "أقراص مغلفة وكبسولات بتقنيات تحرر متقدمة لضمان الفاعلية القصوى.",
-    image: tablets,
-    count: 36,
-  },
-  {
-    slug: "creams",
-    title: "الكريمات والمراهم",
-    tagline: "Topicals",
-    description: "مستحضرات موضعية مدروسة الصياغة لعلاج فعّال وآمن للبشرة والجلد.",
-    image: creams,
-    count: 14,
-  },
-];
+export function useCategories() {
+  const categories = useApiList('categories');
+  const english = useApiList('categories', 'en');
+  const products = useApiList('products');
+  const counts = new Map<string, number>();
+  products.data?.forEach(product => counts.set(product.category.id, (counts.get(product.category.id) ?? 0) + 1));
+  const names = new Map(english.data?.map(category => [category.id, category.name]));
+  return {
+    data: [...(categories.data ?? [])].sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0)).map(category => ({
+      ...category, title: category.name, tagline: names.get(category.id) ?? category.name,
+      count: counts.get(category.id) ?? 0,
+    })),
+    products: products.data ?? [],
+    pending: categories.isPending || products.isPending || english.isPending,
+    error: categories.error || products.error || english.error,
+    retry: () => Promise.all([categories.refetch(), products.refetch(), english.refetch()]),
+  };
+}

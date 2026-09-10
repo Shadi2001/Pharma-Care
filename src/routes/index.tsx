@@ -11,7 +11,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import heroImg from "@/assets/hero-lab.jpg";
-import { categories } from "@/lib/products";
+import { useCategories } from "@/lib/products";
+import { ApiState } from "@/components/site/ApiState";
+import { ApiImage } from "@/components/site/ApiImage";
+import { useLanguage } from "@/lib/language";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -38,6 +41,9 @@ const stats = [
 ];
 
 function HomePage() {
+  const catalogue = useCategories();
+  const categories = catalogue.pending || catalogue.error ? [] : catalogue.data.slice(0, 4);
+  const { text, dir } = useLanguage();
   return (
     <div>
       {/* HERO */}
@@ -125,7 +131,7 @@ function HomePage() {
               transition={{ delay: i * 0.07 }}
               className="text-center"
             >
-              <div className="text-4xl font-extrabold text-gradient-brand">{s.value}</div>
+              <div className="text-4xl font-extrabold text-gradient-brand">{i === 0 ? (catalogue.pending || catalogue.error ? "—" : catalogue.products.length) : s.value}</div>
               <div className="mt-1 text-sm text-muted-foreground">{s.label}</div>
             </motion.div>
           ))}
@@ -179,9 +185,10 @@ function HomePage() {
           </div>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <ApiState pending={catalogue.pending} error={catalogue.error} empty={!catalogue.data.length} retry={catalogue.retry} />
             {categories.map((c, i) => (
               <motion.div
-                key={c.slug}
+                key={c.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -189,11 +196,13 @@ function HomePage() {
                 whileHover={{ y: -8 }}
               >
                 <Link
-                  to="/products"
+                  to={c.slug ? "/products/category/$slug" : "/products"}
+                  params={{ slug: c.slug ?? "" }}
+                  dir={dir}
                   className="group block overflow-hidden rounded-2xl border border-border bg-background shadow-soft"
                 >
                   <div className="relative aspect-square overflow-hidden bg-secondary/50">
-                    <img
+                    <ApiImage
                       src={c.image}
                       alt={c.title}
                       loading="lazy"
@@ -202,7 +211,7 @@ function HomePage() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-3 left-3 rounded-full bg-background/90 px-3 py-1 text-xs font-bold text-primary backdrop-blur">
-                      {c.count} صنف
+                      {c.count} {text('صنف', 'products')}
                     </div>
                   </div>
                   <div className="p-5">

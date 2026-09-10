@@ -15,6 +15,10 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ScienceSlugRouteImport } from './routes/science_.$slug'
+import { Route as ProductsSlugRouteImport } from './routes/products_.$slug'
+import { Route as ProductsCategorySlugRouteImport } from './routes/products_.category.$slug'
+import { Route as ApiPharmaSplatRouteImport } from './routes/api.pharma.$'
 
 const ScienceRoute = ScienceRouteImport.update({
   id: '/science',
@@ -46,6 +50,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScienceSlugRoute = ScienceSlugRouteImport.update({
+  id: '/science_/$slug',
+  path: '/science/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsSlugRoute = ProductsSlugRouteImport.update({
+  id: '/products_/$slug',
+  path: '/products/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsCategorySlugRoute = ProductsCategorySlugRouteImport.update({
+  id: '/products_/category/$slug',
+  path: '/products/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPharmaSplatRoute = ApiPharmaSplatRouteImport.update({
+  id: '/api/pharma/$',
+  path: '/api/pharma/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +78,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/science': typeof ScienceRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/science/$slug': typeof ScienceSlugRoute
+  '/api/pharma/$': typeof ApiPharmaSplatRoute
+  '/products/category/$slug': typeof ProductsCategorySlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +90,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/science': typeof ScienceRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/science/$slug': typeof ScienceSlugRoute
+  '/api/pharma/$': typeof ApiPharmaSplatRoute
+  '/products/category/$slug': typeof ProductsCategorySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,12 +103,36 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/science': typeof ScienceRoute
+  '/products_/$slug': typeof ProductsSlugRoute
+  '/science_/$slug': typeof ScienceSlugRoute
+  '/api/pharma/$': typeof ApiPharmaSplatRoute
+  '/products_/category/$slug': typeof ProductsCategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/careers' | '/contact' | '/products' | '/science'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/careers'
+    | '/contact'
+    | '/products'
+    | '/science'
+    | '/products/$slug'
+    | '/science/$slug'
+    | '/api/pharma/$'
+    | '/products/category/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/careers' | '/contact' | '/products' | '/science'
+  to:
+    | '/'
+    | '/about'
+    | '/careers'
+    | '/contact'
+    | '/products'
+    | '/science'
+    | '/products/$slug'
+    | '/science/$slug'
+    | '/api/pharma/$'
+    | '/products/category/$slug'
   id:
     | '__root__'
     | '/'
@@ -85,6 +141,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/science'
+    | '/products_/$slug'
+    | '/science_/$slug'
+    | '/api/pharma/$'
+    | '/products_/category/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,6 +154,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ProductsRoute: typeof ProductsRoute
   ScienceRoute: typeof ScienceRoute
+  ProductsSlugRoute: typeof ProductsSlugRoute
+  ScienceSlugRoute: typeof ScienceSlugRoute
+  ApiPharmaSplatRoute: typeof ApiPharmaSplatRoute
+  ProductsCategorySlugRoute: typeof ProductsCategorySlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +204,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/science_/$slug': {
+      id: '/science_/$slug'
+      path: '/science/$slug'
+      fullPath: '/science/$slug'
+      preLoaderRoute: typeof ScienceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products_/$slug': {
+      id: '/products_/$slug'
+      path: '/products/$slug'
+      fullPath: '/products/$slug'
+      preLoaderRoute: typeof ProductsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products_/category/$slug': {
+      id: '/products_/category/$slug'
+      path: '/products/category/$slug'
+      fullPath: '/products/category/$slug'
+      preLoaderRoute: typeof ProductsCategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pharma/$': {
+      id: '/api/pharma/$'
+      path: '/api/pharma/$'
+      fullPath: '/api/pharma/$'
+      preLoaderRoute: typeof ApiPharmaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -150,6 +242,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ProductsRoute: ProductsRoute,
   ScienceRoute: ScienceRoute,
+  ProductsSlugRoute: ProductsSlugRoute,
+  ScienceSlugRoute: ScienceSlugRoute,
+  ApiPharmaSplatRoute: ApiPharmaSplatRoute,
+  ProductsCategorySlugRoute: ProductsCategorySlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
