@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
+import { departmentContacts } from "@/lib/contact";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -32,9 +33,9 @@ function ContactPage() {
       <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-5">
         <div className="space-y-5 lg:col-span-2">
           {[
-            { icon: Phone, title: "الهاتف", value: "+963 11 000 0000" },
-            { icon: Mail, title: "البريد الإلكتروني", value: "info@pharmacare.com" },
-            { icon: MapPin, title: "العنوان", value: "دمشق، سوريا - المنطقة الصناعية" },
+            ...departmentContacts.map((contact) => ({ icon: Phone, ...contact })),
+            { icon: Mail, title: "البريد الإلكتروني", value: "info@pharmacare.com", href: "mailto:info@pharmacare.com" },
+            { icon: MapPin, title: "العنوان", value: "عدرا المدينة الصناعية، القطاع الثاني، ريف دمشق – سوريا", href: undefined },
           ].map((c, i) => (
             <motion.div
               key={c.title}
@@ -44,12 +45,16 @@ function ContactPage() {
               transition={{ delay: i * 0.08 }}
               className="flex items-center gap-4 rounded-2xl border border-border p-5 hover:shadow-soft transition-shadow"
             >
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-brand text-primary-foreground">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-brand text-primary-foreground">
                 <c.icon size={22} />
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">{c.title}</div>
-                <div className="text-base font-bold">{c.value}</div>
+                {c.href ? (
+                  <a href={c.href} dir="ltr" className="inline-block text-base font-bold hover:underline underline-offset-4">{c.value}</a>
+                ) : (
+                  <div className="text-base font-bold">{c.value}</div>
+                )}
               </div>
             </motion.div>
           ))}

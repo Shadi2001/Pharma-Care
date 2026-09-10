@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import logo from "@/assets/phc-logo.png";
+import { departmentContacts } from "@/lib/contact";
 
 export function Footer() {
   return (
@@ -24,7 +25,7 @@ export function Footer() {
                 key={i}
                 href="#"
                 aria-label="social"
-                className="grid h-10 w-10 place-items-center rounded-full border border-border text-primary transition-colors hover:bg-gradient-brand hover:text-primary-foreground hover:border-transparent"
+                className="grid h-10 w-10 place-items-center rounded-full border border-border text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary focus-visible:bg-primary focus-visible:text-primary-foreground focus-visible:border-primary"
               >
                 <Icon size={18} />
               </a>
@@ -45,9 +46,17 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-bold text-foreground">تواصل معنا</h4>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone size={16} className="text-primary" /> +963 11 000 0000</li>
+            {departmentContacts.map((contact) => (
+              <li key={contact.href} className="flex items-start gap-2">
+                <Phone size={16} className="mt-0.5 shrink-0 text-primary" />
+                <div>
+                  <div className="text-xs font-semibold text-foreground">{contact.title}</div>
+                  <a href={contact.href} dir="ltr" className="inline-block hover:text-primary hover:underline underline-offset-4">{contact.value}</a>
+                </div>
+              </li>
+            ))}
             <li className="flex items-center gap-2"><Mail size={16} className="text-primary" /> info@pharmacare.com</li>
-            <li className="flex items-center gap-2"><MapPin size={16} className="text-primary" /> دمشق، سوريا</li>
+            <li className="flex items-start gap-2"><MapPin size={16} className="mt-0.5 shrink-0 text-primary" /> عدرا المدينة الصناعية، القطاع الثاني، ريف دمشق – سوريا</li>
           </ul>
         </div>
       </div>
