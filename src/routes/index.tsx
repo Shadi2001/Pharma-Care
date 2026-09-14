@@ -6,11 +6,9 @@ import {
   Microscope,
   Pill,
   HeartPulse,
-  Award,
   ArrowLeft,
-  Sparkles,
 } from "lucide-react";
-import heroImg from "@/assets/hero-lab.jpg";
+import { HeroSlideshow } from "@/components/site/HeroSlideshow";
 import { useCategories } from "@/lib/products";
 import { ApiState } from "@/components/site/ApiState";
 import { ApiImage } from "@/components/site/ApiImage";
@@ -35,9 +33,9 @@ const features = [
 
 const stats = [
   { value: "+90", label: "منتج صيدلاني" },
-  { value: "+15", label: "سنة خبرة" },
+  { value: "20", label: "صيدلانياً من ذوي الخبرة" },
   { value: "+200", label: "كادر متخصص" },
-  { value: "12", label: "دولة تصدير" },
+  { value: "صناعة", label: "سورية" },
 ];
 
 function HomePage() {
@@ -46,78 +44,7 @@ function HomePage() {
   const { text, dir } = useLanguage();
   return (
     <div>
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-soft">
-        <div className="pointer-events-none absolute -top-32 -left-40 h-96 w-96 rounded-full bg-primary/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -right-40 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
-
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-bold text-primary">
-              <Sparkles size={14} /> Pharma Health Care
-            </span>
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight md:text-6xl">
-              صحة <span className="text-gradient-brand">موثوقة</span>
-              <br />
-              تبدأ من المختبر إلى يديك
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground md:text-lg">
-              نُصنّع مستحضرات صيدلانية عالية الجودة بمعايير عالمية، تجمع بين
-              الخبرة العلمية والابتكار التكنولوجي لخدمة الأطباء والصيادلة
-              والمرضى في كل مكان.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/products"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-bold text-primary-foreground shadow-glow transition-transform hover:scale-105"
-              >
-                استعرض المنتجات <ArrowLeft size={16} />
-              </Link>
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-bold text-foreground hover:border-primary hover:text-primary"
-              >
-                تعرّف علينا
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-brand opacity-20 blur-2xl" />
-            <img
-              src={heroImg}
-              alt="مختبر فارما كير"
-              width={1600}
-              height={1024}
-              className="relative w-full rounded-3xl object-cover shadow-soft"
-            />
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-border bg-background p-4 shadow-soft md:block"
-            >
-              <div className="flex items-center gap-3">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-brand text-primary-foreground">
-                  <Award size={22} />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground">شهادة معتمدة</div>
-                  <div className="text-sm font-bold">ISO 9001 · GMP</div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      <HeroSlideshow />
 
       {/* STATS */}
       <section className="mx-auto max-w-7xl px-6 py-14">

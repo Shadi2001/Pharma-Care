@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+// import { Youtube } from "lucide-react";
 import logo from "@/assets/phc-logo.png";
 import { departmentContacts } from "@/lib/contact";
 
@@ -20,11 +21,18 @@ export function Footer() {
             مستحضرات صيدلانية عالية الجودة تخدم صحة المجتمع.
           </p>
           <div className="mt-5 flex gap-3">
-            {[Facebook, Instagram, Linkedin, Youtube].map((Icon, i) => (
+            {[
+              { Icon: Facebook, label: "Facebook", href: "https://www.facebook.com/share/1C7yKk7K2q/" },
+              { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/phc_pharmacare?stkn=cmYyN3BsOTJrbG55" },
+              { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/phcare/" },
+              // { Icon: Youtube, label: "YouTube", href: "#" },
+            ].map(({ Icon, label, href }) => (
               <a
-                key={i}
-                href="#"
-                aria-label="social"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="grid h-10 w-10 place-items-center rounded-full border border-border text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary focus-visible:bg-primary focus-visible:text-primary-foreground focus-visible:border-primary"
               >
                 <Icon size={18} />

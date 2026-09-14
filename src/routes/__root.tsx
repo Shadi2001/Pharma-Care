@@ -14,6 +14,7 @@ import { Footer } from "@/components/site/Footer";
 import { languageSearch, useLanguage } from "@/lib/language";
 
 import appCss from "../styles.css?url";
+import favicon from "../../ico.png";
 
 function NotFoundComponent() {
   return (
@@ -87,7 +88,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: favicon },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

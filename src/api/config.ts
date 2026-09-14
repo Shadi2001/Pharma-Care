@@ -1,5 +1,5 @@
 // Public backend configuration; override at build time with .env.local.
-export const API_BASE_URL = (import.meta.env.VITE_PHARMA_API_BASE_URL || "http://72.62.93.207").replace(/\/+$/, "");
+export const API_BASE_URL = (import.meta.env.VITE_PHARMA_API_BASE_URL || "https://api.pharmacaresy.io").replace(/\/+$/, "");
 export const API_MODE = import.meta.env.VITE_PHARMA_API_MODE || "auto";
 export const PROXY_PREFIX = "/api/pharma";
 

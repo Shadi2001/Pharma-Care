@@ -23,7 +23,7 @@ export function Header() {
           <img src={logo} alt="PHC" width={44} height={44} className="h-11 w-11" />
           <div className="leading-tight">
             <div className="text-lg font-extrabold text-gradient-brand">فارما كير</div>
-            <div className="text-[11px] text-muted-foreground">Pharma Health Care</div>
+            <div className="text-[11px] text-muted-foreground">Pharma Care</div>
           </div>
         </Link>
 

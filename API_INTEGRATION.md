@@ -2,6 +2,7 @@
 
 ## Configuration and language
 
+The default backend is `https://api.pharmacaresy.io`.
 `src/api/config.ts` is the only application source of the backend URL. Copy
 `.env.example` to `.env.local` to override `VITE_PHARMA_API_BASE_URL` before
 starting Vite or building. This is public configuration, not a place for secrets.
