@@ -3,7 +3,7 @@ import { API_BASE_URL } from './config';
 // Only public documented GET endpoints and the configured backend's media.
 // Never forward cookies/authorization or accept arbitrary upstream URLs.
 export async function proxyRequest(request: Request, path: string): Promise<Response> {
-  const apiPath = /^api\/(?:categories|products|blogs)(?:\/[-a-zA-Z0-9_]{1,255})?\/?$/.test(path) || /^api\/blog-topics\/?$/.test(path);
+  const apiPath = /^api\/(?:categories|products|blogs|jobs)(?:\/[-a-zA-Z0-9_]{1,255})?\/?$/.test(path) || /^api\/(?:blog-topics|job-departments)\/?$/.test(path);
   const mediaPath = /^media\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_.-]+\.(?:jpe?g|png|webp|gif|avif|svg|ico)$/i.test(path) && !path.includes('..');
   if (!apiPath && !mediaPath) return new Response('Not found', { status: 404 });
   const incoming = new URL(request.url);
@@ -37,5 +37,8 @@ export async function proxyRequest(request: Request, path: string): Promise<Resp
         ...(mediaPath ? { 'Content-Security-Policy': "default-src 'none'; sandbox" } : {}),
       },
     });
-  } catch { return Response.json({ detail: 'Backend unavailable.' }, { status: 502 }); }
+  } catch (error) {
+    console.error('[Pharma API] Upstream request failed:', error);
+    return Response.json({ detail: 'Backend unavailable.' }, { status: 502 });
+  }
 }

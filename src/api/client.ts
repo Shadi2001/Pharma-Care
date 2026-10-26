@@ -53,7 +53,7 @@ export async function getAll<K extends Resource>(resource: K, lang: Language, si
   return [...records.values()];
 }
 
-export async function getDetail<K extends Exclude<Resource, 'blog-topics'>>(resource: K, slug: string, lang: Language, signal?: AbortSignal): Promise<Resources[K]> {
+export async function getDetail<K extends Exclude<Resource, 'blog-topics' | 'job-departments'>>(resource: K, slug: string, lang: Language, signal?: AbortSignal): Promise<Resources[K]> {
   if (!/^[-a-zA-Z0-9_]{1,255}$/.test(slug)) throw new ApiError('Not found.', 404);
   const parsed = resourceSchemas[resource].safeParse(await request(`${resource}/${encodeURIComponent(slug)}`, lang, undefined, signal));
   if (!parsed.success) throw new ApiError('API response does not match the documented schema.');

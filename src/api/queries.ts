@@ -16,7 +16,7 @@ export function useApiPage<K extends Resource>(resource: K, page: number) {
   const { lang } = useLanguage();
   return useQuery({ ...options, queryKey: ['pharma', resource, lang, 'page', page], queryFn: ({ signal }) => getPage(resource, lang, page, signal), enabled: typeof window !== 'undefined' });
 }
-export function useApiDetail<K extends Exclude<Resource, 'blog-topics'>>(resource: K, slug: string) {
+export function useApiDetail<K extends Exclude<Resource, 'blog-topics' | 'job-departments'>>(resource: K, slug: string) {
   const { lang } = useLanguage();
   return useQuery({ ...options, queryKey: ['pharma', resource, lang, slug], queryFn: ({ signal }) => getDetail(resource, slug, lang, signal), enabled: typeof window !== 'undefined' });
 }

@@ -10,7 +10,7 @@ for (const lang of ['ar', 'en']) {
     const data = paginatedSchema(resourceSchemas[resource]).parse(await response.json());
     console.log(`${resource} (${lang}): schema OK; count=${data.count}; next=${data.next}; CORS=${response.headers.get('access-control-allow-origin')}`);
     const first = data.results.find(item => item.slug);
-    if (first && resource !== 'blog-topics') {
+    if (first && !['blog-topics', 'job-departments'].includes(resource)) {
       const detail = await fetch(`${API_BASE_URL}/api/${resource}/${first.slug}/?lang=${lang}`, { signal: AbortSignal.timeout(20000) });
       assert.equal(detail.status, 200);
       assert.equal(resourceSchemas[resource].parse(await detail.json()).id, first.id);

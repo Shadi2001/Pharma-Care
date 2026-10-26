@@ -2,7 +2,8 @@
 
 ## Configuration and language
 
-The default backend is `https://api.pharmacaresy.io`.
+The default backend is `https://api.pharmacaresy.com`. The previous `.io` domain
+redirects to `.com`; use the canonical address because the proxy rejects redirects.
 `src/api/config.ts` is the only application source of the backend URL. Copy
 `.env.example` to `.env.local` to override `VITE_PHARMA_API_BASE_URL` before
 starting Vite or building. This is public configuration, not a place for secrets.
@@ -38,6 +39,21 @@ image requests from an HTTPS page. No authentication was added.
 | `/products/{slug}` | `/api/products/{slug}/` |
 | `/science` | `/api/blogs/`, `/api/blog-topics/` |
 | `/science/{slug}` | `/api/blogs/{slug}/`, `/api/blog-topics/` |
+| `/careers` | `/api/jobs/`, `/api/job-departments/` |
+| `/careers/{slug}` | `/api/jobs/{slug}/` |
+
+Careers uses live jobs only. All job/department pages are collected before
+department filtering; filtered jobs paginate in groups of six. Detail pages show
+the reference code, department, description, requirements, location, employment
+type, workplace type and API metadata. Job content is rendered as text. The supplied
+endpoints are GET-only: there is no application submission endpoint or application
+form in this integration. Existing careers introduction and benefits remain static.
+
+On 2026-10-12 both jobs and departments returned HTTP 200 with empty results.
+Empty-state behavior was checked against the live API; populated lists, filtering,
+pagination, detail navigation, metadata, mobile width and missing-job handling were
+checked in a browser using controlled responses. `node scripts/test-jobs.mjs`
+also covers the jobs client and proxy contracts without adding mock jobs to the app.
 
 The homepage retains four preview cards. Category card counts come from all
 product pages; the English subtitle comes from the English category response.
@@ -147,7 +163,7 @@ not retained frontend mocks.
 
 Static frontend content without matching endpoints remains: company marketing,
 hero/team imagery, certifications, experience/staff/export statistics, about
-content, careers listings/buttons, contact details and form behavior, and
+content, careers introduction/benefits, contact details and form behavior, and
 social/YouTube placeholder links. The contact form still only shows a local
 confirmation; the YAML documents no submission endpoint. Category mock records
 and the static article array were removed from the data flow.

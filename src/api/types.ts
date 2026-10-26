@@ -17,6 +17,16 @@ export const blogSchema = z.object({
   id: z.string().uuid(), slug, topic: related, title: z.string(), content: z.string(), image,
   published_at: z.string().datetime({ offset: true }).nullable().optional(),
 });
+export const jobDepartmentSchema = related;
+const jobChoiceSchema = z.object({ code: z.string(), name: z.string() });
+export const jobSchema = z.object({
+  id: z.string().uuid(), slug, reference_code: z.string(),
+  department: jobDepartmentSchema, title: z.string(),
+  description: z.string(), requirements: z.string(),
+  location: jobChoiceSchema, employment_type: jobChoiceSchema,
+  workplace_type: jobChoiceSchema,
+  meta_title: z.string(), meta_description: z.string(),
+});
 export function paginatedSchema<T extends z.ZodTypeAny>(item: T) {
   return z.object({
     count: z.number().int().nonnegative(),
@@ -28,12 +38,15 @@ export function paginatedSchema<T extends z.ZodTypeAny>(item: T) {
 export const resourceSchemas = {
   categories: categorySchema, products: productSchema,
   'blog-topics': blogTopicSchema, blogs: blogSchema,
+  'job-departments': jobDepartmentSchema, jobs: jobSchema,
 };
 export type Category = z.infer<typeof categorySchema>;
 export type Product = z.infer<typeof productSchema>;
 export type BlogTopic = z.infer<typeof blogTopicSchema>;
 export type Blog = z.infer<typeof blogSchema>;
+export type JobDepartment = z.infer<typeof jobDepartmentSchema>;
+export type Job = z.infer<typeof jobSchema>;
 export type Resource = keyof typeof resourceSchemas;
-export type Resources = { categories: Category; products: Product; 'blog-topics': BlogTopic; blogs: Blog };
+export type Resources = { categories: Category; products: Product; 'blog-topics': BlogTopic; blogs: Blog; 'job-departments': JobDepartment; jobs: Job };
 export type Paginated<T> = { count: number; next?: string | null; previous?: string | null; results: T[] };
 export type Language = 'ar' | 'en';
